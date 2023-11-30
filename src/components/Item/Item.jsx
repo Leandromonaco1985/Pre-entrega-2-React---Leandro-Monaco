@@ -2,7 +2,11 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import { ItemDetailContainer } from '../ItemDetailContainer/ItemDetailContainer';
 
+
 export const Card = ( {id, name, price, brand, img, description, stock }) => {
+
+
+
   return (
   
     <div className="card card-custom h-100 m-10 my - 10 p-10" >
