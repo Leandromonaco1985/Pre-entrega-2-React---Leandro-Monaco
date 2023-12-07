@@ -1,5 +1,3 @@
-import React, { useState } from 'react'
-
 export const ProductsCounter = ({ initial = 0, max, quantity, setQuantity }) => {
   const handleAdd = () => {
     if (quantity < max) {
@@ -12,20 +10,14 @@ export const ProductsCounter = ({ initial = 0, max, quantity, setQuantity }) => 
       setQuantity(quantity - 1);
     }
   };
-
   return (
     <>
-      <div className="counterStyle , container" style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-        <button className="btn btn-danger" onClick={handleAdd}>
-          +
-        </button>
+      <div className="counterStyle , container, d-flex justify-content-center, pt-3 pb-3" style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+        <button className="btn btn-danger" onClick={handleAdd}> + </button>
         <div>{quantity}</div>
-        <button className="btn btn-danger" onClick={handleSubtract}>
-          -
-        </button>
+        <button className="btn btn-danger" onClick={handleSubtract}> - </button>
       </div>
     </>
   );
 };
-  
   export default ProductsCounter

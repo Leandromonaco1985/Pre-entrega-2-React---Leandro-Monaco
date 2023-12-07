@@ -1,10 +1,15 @@
 import React from 'react'
 import { CartWidget } from '../CartWidget/CartWidget'
 import styles from "./NavBar.modules.css"
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+
 
 export const NavBar = () => {
+  
+  const { category } = useParams();
+ 
   return (
+
     <nav className="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
 
       <div className="container-fluid">
@@ -22,7 +27,7 @@ export const NavBar = () => {
             </li>
             <li className="nav-item dropdown">
               <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Categories
+                category
               </Link>
               <ul className="dropdown-menu">
                 <li><Link className="dropdown-item" to="/category/doublebass"> Double Basses </Link></li>
@@ -43,6 +48,7 @@ export const NavBar = () => {
           <Link to="/Cart"> <CartWidget /> </Link>
         </div>
       </div>
+      
     </nav>
   )
 }

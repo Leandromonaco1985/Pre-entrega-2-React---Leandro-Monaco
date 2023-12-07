@@ -1,54 +1,41 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { getProductById } from '../../productsmock';
-import {ProductsCounter} from '../ProductsCounter/ProductsCounter'
 import { CartContext } from '../../Context/CartContex';
-import { useContext } from 'react';
+import { db } from '../../config/firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
+import { useContext, useEffect, useState } from 'react';
+import {ItemDetail} from '../itemDetail/ItemDetail';
 
+export const ItemDetailContainer = () => {
+  const [item, setItem] = useState(null);
+  const { id } = useParams();
+  const { cart, setCart } = useContext(CartContext);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
 
+  useEffect(() => {
+    const fetchItem = async () => {
+      const docRef = doc(db, 'Products', id);
+      const docSnap = await getDoc(docRef);
 
-  export const ItemDetailContainer = () => {
-    const { id } = useParams();
-    const [product, setProduct] = React.useState(null);//Estado 
-    const { cart, setCart } = useContext(CartContext); // Obtener cart y setCart del contexto
-    const [selectedQuantity, setSelectedQuantity] = React.useState(1); // Estado local para la cantidad seleccionada
-    React.useEffect(() => {
-      getProductById(id)
-        .then((response) => {
-          setProduct(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }, [id]);
-  
-    if (!product) {
-      return <div>Loading...</div>;
-    }
-  
-    const addToCart = () => {
-      const productToAdd = { ...product, quantity: selectedQuantity }; // Agregar la cantidad seleccionada al producto
-      setCart([...cart, productToAdd]); // Agregar el producto al carrito utilizando setCart
+      if (docSnap.exists()) {
+        setItem({ ...docSnap.data(), id: docSnap.id });
+      } else {
+        console.error('Item not found');
+      }
     };
-  
-    return (
-      <div>
-        <h1>{product.name}</h1>
-        <img src={product.img} alt={product.name} />
-        <p>Brand: {product.brand}</p>
-        <p>Price: ${product.price}</p>
-        <p>Description: {product.description}</p>
-        <p>Stock: {product.stock}</p>
-        <p>Category: {product.category}</p>
-        <div>
-        <ProductsCounter max={product.stock} quantity={selectedQuantity} setQuantity={setSelectedQuantity} />
 
-        </div>
-        <button className="btn btn-primary" onClick={addToCart}>
-          Add to Cart
-        </button>
-      </div>
-    );
-  };
+    fetchItem();
+  }, [id]);
 
-  export default ItemDetailContainer;
+  if (!item) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      <ItemDetail item={item} selectedQuantity={selectedQuantity} setSelectedQuantity={setSelectedQuantity} setCart={setCart} />
+    </div>
+  );
+};
+
+export default ItemDetailContainer;

@@ -1,53 +1,56 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { CartContext } from '../../Context/CartContex'
-import style from './itemlist.css'
-import {Card} from '../Item/Item'
-import { useParams } from 'react-router-dom'
-import { getProducts } from '../../productsmock'
-import ItemDetailContainer from '../ItemDetailContainer/ItemDetailContainer'
-import {ProductsCounter} from '../ProductsCounter/ProductsCounter'
+import React, { useEffect, useState, useContext } from 'react';
+import { CartContext } from '../../Context/CartContex';
+import style from './itemlist.css';
+import { Item } from '../Item/Item';
+import { useParams } from 'react-router-dom';
 
+import { db } from '../../config/firebaseConfig';
+import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
 
 export const ItemListContainer = (props) => {
   const category = useParams().category;
-  console.log(category)
-
-  const [products, setProducts] = useState([]);
   const { cart } = useContext(CartContext);
- 
-
-
-  //función para traer productos
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-  getProducts()
-    .then((resp) => {
-      if (category) {
-        setProducts(resp.filter((prods) => prods.category === category));
-        
-      } else {
-        setProducts(resp);
-      }  
-    })
-    .catch((error) => console.error());
-}, [category]);
-      
+    const myProducts = collection(db, "Products");
+
+    // Filtrado por categorías
+    const queryCategory = category
+      ? query(myProducts, where("category", "==", category), orderBy("category"))
+      : query(myProducts, orderBy("category"));
+
+    getDocs(queryCategory)
+      .then((resp) => {
+        const productList = resp.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+        setProducts(productList);
+      })
+      .catch((error) => console.error());
+  }, [category]);
+
   return (
     <div>
       <h1 className='itemList color-changing-text'> {props.greetings}</h1>
 
-      <h2 > Our's Fetishized Products</h2>
-      <div className="container row" >
-      {            
-        products.map (product => 
-        <div className="col-md-3 "  key = {product.id}>
-            <Card name = {product.name} brand={product.brand} img={product.img} stock={product.stock} price={product.price} id={product.id} category={product.category}/> 
-        </div>
-        )
-      }
-      </div>     
-    </div>    
-  )
-}
+      <h2> Our's Fetishized Products</h2>
+      <div className='container row'>
+        {products.map((product) => (
+          <div className='col-md-3' key={product.id}>
+            <Item
+              name={product.name}
+              brand={product.brand}
+              img={product.img}
+              stock={product.stock}
+              price={product.price}
+              id={product.id}
+              category={product.category}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
-export default ItemListContainer
+export default ItemListContainer;
