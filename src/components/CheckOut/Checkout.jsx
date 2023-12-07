@@ -10,6 +10,8 @@ export const Checkout = () => {
   const { cart, emptyCart } = useContext(CartContext);
   const { register, handleSubmit } = useForm();
   const [orderDetails, setOrderDetails] = useState(null);
+  const [emailMismatch, setEmailMismatch] = useState(false); // 
+
 
   const totalPrice = () => {
     return cart.reduce((total, product) => total + product.price * product.quantity, 0);
@@ -36,31 +38,39 @@ export const Checkout = () => {
   };
 
   const buyCart = async (data) => {
-    const order = {
-      client: data,
-      products: cart,
-      total: totalPrice(),
-    };
+    const { email, email2 } = data;
 
-    const orderRef = collection(db, 'order');
+    if (email === email2) {
+      setEmailMismatch(false); // Restablecer el estado si los correos coinciden
 
-    try {
-      const doc = await addDoc(orderRef, order);
-      console.log('Document written with ID: ', doc.id);
-      updateStock(); 
-      emptyCart();
-      setOrderDetails({
-        orderId: doc.id,
+      const order = {
         client: data,
         products: cart,
         total: totalPrice(),
-      });
-    } catch (error) {
-      console.error('Error adding document: ', error);
+      };
+
+  
+      const orderRef = collection(db, 'order');
+  
+      try {
+        const doc = await addDoc(orderRef, order);
+        console.log('Document written with ID: ', doc.id);
+        updateStock();
+        emptyCart();
+        setOrderDetails({
+          orderId: doc.id,
+          client: data,
+          products: cart,
+          total: totalPrice(),
+        });
+      } catch (error) {
+        console.error('Error adding document: ', error);
+      }
+    }  else {
+      setEmailMismatch(true); // Configurar el estado si los correos no coinciden
     }
-
   };
-
+  
   return (
     <div className='container'>
       <h2>Checkout</h2>
@@ -86,6 +96,8 @@ export const Checkout = () => {
         <form onSubmit={handleSubmit(buyCart)}>
           <input type='text' placeholder='Name' {...register('name')} />
           <input type='email' placeholder='Email' {...register('email')} />
+          <input type='email' placeholder='Repeat Email' {...register('email2')} />
+          {emailMismatch && <p style={{ color: 'red' }}>Emails do not match. Please try again.</p>}
           <input type='number' placeholder='Telephone' {...register('telephone')} />
           <input type='text' placeholder='Address' {...register('address')} />
           <button type='submit' className='btn btn-success'>

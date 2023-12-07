@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import ProductsCounter from '../ProductsCounter/ProductsCounter';
+import ItemQuantitySelector from '../ItemQuantitySelector/ItemQuantitySelector';
 import { CartContext } from '../../Context/CartContex';
 
 export const ItemDetail = ({ item, selectedQuantity, setSelectedQuantity, setCart }) => {
@@ -15,7 +15,7 @@ export const ItemDetail = ({ item, selectedQuantity, setSelectedQuantity, setCar
       <p>Stock: {item.stock}</p>
       <p>Category: {item.category}</p>
       <div className="d-flex justify-content-center">
-        <ProductsCounter max={item.stock} quantity={selectedQuantity} setQuantity={setSelectedQuantity} />
+        <ItemQuantitySelector max={item.stock} quantity={selectedQuantity} setQuantity={setSelectedQuantity} />
       </div>
       <button className="btn btn-primary" onClick={() => addToCart(item, selectedQuantity)}>
         Add to Cart

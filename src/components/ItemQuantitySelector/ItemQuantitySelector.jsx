@@ -1,4 +1,4 @@
-export const ProductsCounter = ({ initial = 0, max, quantity, setQuantity }) => {
+export const ItemQuantitySelector = ({ initial = 0, max, quantity, setQuantity }) => {
   const handleAdd = () => {
     if (quantity < max) {
       setQuantity(quantity + 1);
@@ -20,4 +20,4 @@ export const ProductsCounter = ({ initial = 0, max, quantity, setQuantity }) => 
     </>
   );
 };
-  export default ProductsCounter
+  export default ItemQuantitySelector

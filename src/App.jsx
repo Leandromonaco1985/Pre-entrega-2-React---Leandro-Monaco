@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { NavBar } from './components/Navbar/NavBar';
 import { ItemListContainer } from './components/ItemListContainer/ItemListContainer';
-import { ProductsCounter } from './components/ProductsCounter/ProductsCounter';
+import { ProductsCounter } from './components/ItemQuantitySelector/ItemQuantitySelector';
 import { Item } from './components/Item/Item';
 import {ItemDetailContainer} from './components/ItemDetailContainer/ItemDetailContainer'
 import { CartContextProvider } from './Context/CartContex';

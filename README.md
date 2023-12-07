@@ -1,8 +1,31 @@
-# React + Vite
+# Proyecto Final React JS Coder House
+## Alumno: Leandro Mónaco
+#### ## Descripción del proyecto:  Se pide la creación de un e - commerce.
+● Un usuario debe poder ingresar, navegar por los productos e ir a sus detalles.
+● Desde el detalle se debe poder ver la descripción, foto y precio e ingresarlo al
+carrito.
+● Una vez que el carrito tenga al menos un producto, se deberá visualizar un
+listado compacto de la orden con el precio total.
+● Al ingresar su nombre, apellido, teléfono e e-mail (ingresándolo dos veces para
+corroborar que sea correcto), debe activarse el botón de ‘realizar compra’.
+● Al clickear ‘realizar compra’ debe guardarse en la base de datos una orden que
+tenga todos los productos, la fecha y dar feedback del número de orden.
+------------
+##### Tecnologías: 
+- Vite
+- React JS
+- React Router Dom
+- Boostrap
+- CSS
+- Fire Base
+------------
+### Instalación:_
+1. git clone: https://github.com/Leandromonaco1985/Trabajo-Final-React-CH---Leandro-Monaco
+2. npm install
+3. npm run dev
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+------------
+### Autor:
+https://www.linkedin.com/in/leandro-m%C3%B3naco-b79855282/
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
